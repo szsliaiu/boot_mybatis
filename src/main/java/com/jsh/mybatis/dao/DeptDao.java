@@ -1,0 +1,33 @@
+package com.jsh.mybatis.dao;
+
+import com.jsh.mybatis.entity.Dept;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+/**
+ * @Author panjinsheng
+ * @Create 2023/1/20 21:49
+ * Description:
+ */
+public interface DeptDao {
+
+    /**
+     * 通过分步查询查询员工以及员工所对应的部门信息
+     * 分步查询第二步：通过did查询员工所对应的部门
+     */
+    Dept getEmpAndDeptByStepTwo(@Param("did") Integer did);
+
+    /**
+     * 获取部门以及部门中所有的员工信息
+     */
+    Dept getDeptAndEmp(@Param("did") Integer did);
+
+    /**
+     * 通过分步查询查询部门以及部门中所有的员工信息
+     * 分步查询第一步：查询部门信息
+     */
+    Dept getDeptAndEmpByStepOne(@Param("did") Integer did);
+}
