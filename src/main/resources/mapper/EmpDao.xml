@@ -74,10 +74,6 @@
         from t_emp
         where eid = #{eid}
     </select>
-    <select id="getAllEmpOld" resultType="Emp">
-        <!--select eid,emp_name empName,age,sex,email from t_emp-->
-        select * from t_emp
-    </select>
 
     <!--List<Emp> getDeptAndEmpByStepTwo(@Param("did") Integer did);-->
     <select id="getDeptAndEmpByStepTwo" resultType="Emp">
@@ -86,10 +82,65 @@
         where did = #{did}
     </select>
 
-    <select id="getAll" resultType="com.jsh.mybatis.entity.Emp">
-        select * from t_emp;
+    <resultMap type="com.jsh.mybatis.entity.Emp" id="EmpMap">
+        <result property="eid" column="eid" jdbcType="INTEGER"/>
+        <result property="empName" column="emp_name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="did" column="did" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="EmpMap">
+        select
+        eid, emp_name, age, sex, email, did
+        from t_emp
+        <where>
+            <if test="eid != null">
+                and eid = #{eid}
+            </if>
+            <if test="empName != null and empName != ''">
+                and emp_name = #{empName}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="did != null">
+                and did = #{did}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 
+    <!--通过分页插件pageHelper-->
+    <select id="getEmpByPageHelper" resultMap="EmpMap">
+        select eid,
+               emp_name,
+               age,
+               sex,
+               email,
+               did
+        from t_emp
+    </select>
+
+    <!--通过limit分页查询-->
+    <select id="getEmpByLimit" parameterType="map" resultMap="EmpMap">
+        select *
+        from t_emp limit #{offset},#{pageSize}
+    </select>
+
+    <!--通过Rowbounds-->
+    <select id="getEmpByRowBounds" resultMap="EmpMap">
+        select *
+        from t_emp
+    </select>
 
 </mapper>
 

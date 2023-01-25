@@ -15,8 +15,6 @@ import java.io.Serializable;
  */
 @Data
 @TableName("t_emp")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Emp implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -40,6 +38,19 @@ public class Emp implements Serializable {
         this.age = age;
         this.sex = sex;
         this.email = email;
+    }
+
+    public Emp(Integer eid, String empName, Integer age, String sex, String email, Integer did, Dept dept) {
+        this.eid = eid;
+        this.empName = empName;
+        this.age = age;
+        this.sex = sex;
+        this.email = email;
+        this.did = did;
+        this.dept = dept;
+    }
+
+    public Emp() {
     }
 }
 
